@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body>
+    <div class="flex justify-center items-center h-screen">
+      <div class="text-center">
+        <h1 class="text-2xl font-bold mb-4">Amazon OAuth</h1>
+        <form action="<?= url ?>?path=authorization" class="flex flex-col gap-2 w-96 mx-auto" method="POST">
+            <label for="applicationId" class="block text-gray-500 text-left">アプリケーションID</label>
+            <input type="text" name="applicationId" id="applicationId" class="border border-gray-300 rounded-md p-2 w-full" required>
+            <label for="clientId" class="block text-gray-500 text-left">クライアントID</label>
+            <input type="text" name="clientId" id="clientId" class="border border-gray-300 rounded-md p-2 w-full" required>
+            <label for="clientSecret" class="block text-gray-500 text-left">クライアントシークレット</label>
+            <input type="text" name="clientSecret" id="clientSecret" class="border border-gray-300 rounded-md p-2 w-full" required>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">認可を開始する</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

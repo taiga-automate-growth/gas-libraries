@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 p-6">
+    <main class="max-w-6xl mx-auto flex flex-col h-[90vh]">
+      <div class="flex flex-1 gap-4 flex-col lg:flex-row">
+        <!-- フィルター（左側） -->
+        <div class="lg:flex-[1] w-full lg:w-auto mb-4 lg:mb-0 lg:sticky lg:top-[24px] h-fit">
+          <div class="flex flex-col gap-2">
+            <? filters.forEach((filter, idx) => { ?>
+              <details class="w-full bg-white rounded shadow-sm" <?= idx === 0 ? 'open' : '' ?>>
+                <summary class="cursor-pointer px-4 py-2 font-semibold text-gray-700 select-none outline-none focus:ring-2 focus:ring-blue-400 rounded filter">
+                  <?= filter.name ?>
+                </summary>
+                <div class="px-4 py-2">
+                  <? if(filter.type === "text") { ?>
+                    <input
+                      type="text"
+                      id="searchInput"
+                      placeholder="<?= filter.placeholder ?>"
+                      class="border px-3 py-2 rounded w-full"
+                      data-filter="text"
+                    >
+                  <? } else if(filter.type === "checkbox") { ?>
+                    <div class="flex flex-col gap-2" data-filter="checkbox-group" id="categoryFilterGroup">
+                      <? filter.options.forEach(option => { ?>
+                        <label class="flex items-center">
+                          <input type="checkbox" name="<?= filter.category ?>" value="<?= option.value ?>" class="mr-1">
+                          <?= option.label ?>
+                        </label>
+                      <? }) ?>
+                    </div>
+                  <? } ?>
+                </div>
+              </details>
+            <? }) ?>
+            <div class="flex items-end mt-2">
+              <button
+                id="searchBtn"
+                class="px-4 py-2 bg-blue-600 text-white rounded flex-shrink-0"
+                onclick="search()"
+              >検索</button>
+            </div>
+          </div>
+        </div>
+        <!-- オブジェクトリスト（右側） -->
+        <div class="lg:flex-[4] w-full flex flex-col">
+          <!-- レイアウト切り替えボタン -->
+          <div class="flex justify-end items-center mb-4 sticky top-[24px] bg-gray-50 z-10">
+            <button id="gridBtn" onclick="setLayout('grid')" class="px-3 py-2 bg-gray-300 text-white rounded mr-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+              </svg>
+            </button>
+            <button id="listBtn" onclick="setLayout('list')" class="px-3 py-2 bg-gray-500 text-white rounded">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+              </svg>
+            </button>
+          </div>
+          <!-- スクロール領域をボタンの下に分離 -->
+          <div id="objects" class="flex-1 overflow-y-auto flex flex-col gap-4"
+               style="max-height: calc(90vh - 120px);">
+            <? objects.forEach(object => { ?>
+              <div class="bg-white shadow rounded p-4 h-30 hover:bg-gray-100 transition-colors duration-200">
+                <h2 class="text-lg font-bold text-gray-800 mb-2"><?= object ?></h2>
+                <p class="text-gray-600 line-clamp-3">演習日程：<?= object?></p>
+                <div class="mt-4 text-sm text-gray-500 grid grid-cols-2 gap-2">
+                  <div class="flex items-center mb-1">
+                    <span class="mx-1">演習日程 & 場所:</span>
+                    <button 
+                      class="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-400 transition"
+                      onclick="inputScheduleAndPlace('<?= object.salesReporting ?>')"
+                    >入力</button>
+                  </div>
+                  <div class="flex items-center mb-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                    </svg>
+                    <span class="mx-1">:</span>
+                      <span class="text-gray-600">作成済</span>
+                        <button 
+                        class="px-2 py-1 bg-sky-800 text-white rounded hover:bg-blue-600 transition"
+                        onclick="createSchedule('<?= object.salesReporting ?>')"
+                        >作成する</button>
+                  </div>
+                  <div class="flex items-center mb-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    </svg>
+                    <span class="mx-1">:</span>
+                      <span class="text-gray-600">作成済</span>
+                      <button 
+                      class="px-2 py-1 bg-sky-800 text-white rounded hover:bg-blue-600 transition"
+                      onclick="createMailDraft('<?= object.salesReporting ?>')"
+                      >作成する</button>
+                  </div>
+                  <div class="flex items-center mb-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>                      
+                    <span class="mx-1">:</span>
+                      <span class="text-gray-600">削除済み</span>
+                      <button 
+                      class="px-2 py-1 bg-sky-800 text-white rounded hover:bg-blue-600 transition"
+                      onclick="removeEditPermission('<?= object.salesReporting ?>')"
+                      >削除する</button>
+                  </div>
+                </div>
+              </div>
+            <? }) ?>
+          </div>
+          <div class="mt-5 flex justify-center items-center space-x-2 text-sm text-gray-700 sticky bottom-0 bg-gray-50 z-10 py-2">
+            <button onclick="prevPage()" class="px-3 py-1 border rounded bg-white hover:bg-gray-100 disabled:opacity-50" id="prevBtn">
+              ← 前へ
+            </button>
+
+            <span>ページ <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
+
+            <button onclick="nextPage()" class="px-3 py-1 border rounded bg-white hover:bg-gray-100 disabled:opacity-50" id="nextBtn">
+              次へ →
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Components/Loading/Html.html').getContent() ?>
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Components/Loading/Script.html').getContent() ?>
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Components/Modal/Modal.html').getContent() ?>
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Components/Modal/Script.html').getContent() ?>
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Practice/Script/Script.html').getContent() ?>
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Components/Alert/Alert.html').getContent() ?>
+    <?!= HtmlService.createHtmlOutputFromFile('src/Views/Components/Alert/Script.html').getContent() ?>
+    <script>
+
+      const loading = new Loading();
+      const modal = new Modal('myModal');
+      const alert = new Alert();
+      
+      function setLayout(type) {
+        const objects = document.getElementById('objects');
+        const gridBtn = document.getElementById('gridBtn');
+        const listBtn = document.getElementById('listBtn');
+        if (type === 'grid') {
+          objects.className = 'flex-1 overflow-y-auto grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+          gridBtn.className = 'px-3 py-2 bg-gray-500 text-white rounded mr-2';
+          listBtn.className = 'px-3 py-2 bg-gray-300 text-white rounded';
+        } else {
+          objects.className = 'flex-1 overflow-y-auto flex flex-col gap-4';
+          gridBtn.className = 'px-3 py-2 bg-gray-300 text-white rounded mr-2';
+          listBtn.className = 'px-3 py-2 bg-gray-500 text-white rounded';
+        }
+      }
+
+      function search(){
+        loading.start("検索中");
+        const conditions = [];
+        const filters = document.querySelectorAll('.filter');
+        filters.forEach(filter => {
+          const inputs = filter.nextElementSibling.querySelectorAll('input');
+          const values = [];
+          Array.from(inputs).forEach(input => {
+            if(input.type === "checkbox"){
+              if(input.checked){
+                values.push(input.value);
+              }
+            }else if(input.value !== "" && input.value !== null && input.value !== undefined){
+              values.push(input.value);
+            }
+          });
+          if(values.length > 0){
+            conditions.push({key: filter.innerText.trim(), operator: "=", value: values});
+          }
+        });
+        console.log(JSON.stringify(conditions));
+        google.script.run.withSuccessHandler(function(result){
+          console.log(result);
+          if(result.status === "success"){
+            loading.stop();
+          }
+        }).index(conditions);
+      }
+
+      // ページ読み込み時にリストレイアウトをデフォルトに
+      window.addEventListener('DOMContentLoaded', function() {
+        setLayout('list');
+      });
+    </script>
+  </body>
+</html>

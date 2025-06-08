@@ -1,0 +1,32 @@
+<!-- ローディングクラス -->
+<script>
+    class Loading{
+      constructor(){
+        this.element = document.getElementById("loading-container");
+        this.cancelBtn = document.getElementById("loading-cancel-btn");
+        this.cancelCallback = null;
+
+        // キャンセルボタンのイベントリスナーを設定
+        this.cancelBtn.addEventListener('click', () => {
+          this.stop();
+          if (this.cancelCallback) {
+            this.cancelCallback();
+          }
+        });
+      }
+  
+      start(message, onCancel = null){
+        this.element.style.display = 'flex';
+        const messageContainer = this.element.children[1];
+        messageContainer.innerHTML = message;
+        this.cancelCallback = onCancel;
+        this.cancelBtn.style.display = 'block'; // ボタンを表示
+      }
+  
+      stop(){
+        this.element.style.display = 'none';
+        this.cancelCallback = null;
+        this.cancelBtn.style.display = 'none'; // ボタンを非表示
+      }
+    }
+</script>

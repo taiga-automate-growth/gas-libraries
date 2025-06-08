@@ -1,0 +1,30 @@
+<script>
+class Modal {
+  constructor(id) {
+    this.modal = document.getElementById(id);
+    if (!this.modal) throw new Error('Modal not found: ' + id);
+
+    // 閉じるボタン
+    this.modal.querySelectorAll('[data-modal-close]').forEach(btn => {
+      btn.addEventListener('click', () => this.close());
+    });
+
+    // 背景クリックで閉じる
+    this.modal.addEventListener('click', (e) => {
+      if (e.target === this.modal) this.close();
+    });
+  }
+
+  open() {
+    this.modal.classList.remove('hidden');
+  }
+
+  close() {
+    this.modal.classList.add('hidden');
+  }
+
+  setHtml(html){
+    this.modal.querySelector('.modal-content').innerHTML = html;
+  }
+}
+</script> 

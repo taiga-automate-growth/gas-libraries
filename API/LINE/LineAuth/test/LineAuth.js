@@ -1,0 +1,7 @@
+function testGetProfile_() {
+  const token = "eyJraWQiOiJlNmE2OTE5Mzg2MTY5YmE1NGRlOWRkMzM2YjQxNDc5YTAxMDEyZGMwYzQyOGJhYWUyZGUxOGU1OWVlMjE0NmRiIiwidHlwIjoiSldUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJodHRwczovL2FjY2Vzcy5saW5lLm1lIiwic3ViIjoiVTc1NjM2ZTcwOThmOWVjMjBkYzFkNmYzYzM1MzYyNWM3IiwiYXVkIjoiMjAwNjUwOTUwMSIsImV4cCI6MTczMDQxMTUzNywiaWF0IjoxNzMwNDA3OTM3LCJuYW1lIjoi5aSn5bO25aSn5rKzIn0.c7RugVDdaGXBqAbYLcAc3IcGqu0BD5Z36fndznPdIN1_8qP5Z8DqhhiVls_jQQgjwYZFN7kap9HzgGNebmrt-A";
+  const liffChannelId = "2006509501";
+  const line = new LineAuth();
+  const profile = line.getUserProfile(token,liffChannelId);
+  console.log(profile);
+}

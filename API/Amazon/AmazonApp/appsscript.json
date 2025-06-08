@@ -1,0 +1,21 @@
+{
+  "timeZone": "Asia/Tokyo",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "AmazonInventory",
+        "libraryId": "1UViVPDFHzR-lHO5-9RU8sJFd0osDWAe12hD_nPpQjssEM-ik5p9xX26m",
+        "version": "5",
+        "developmentMode": false
+      },
+      {
+        "userSymbol": "AmazonOrder",
+        "libraryId": "1U40fpozoU7Jlp6D1m4MHXdUqeAymCZKwoJlKsrNshGADHx0dPR5a5blt",
+        "version": "7",
+        "developmentMode": false
+      }
+    ]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
+}

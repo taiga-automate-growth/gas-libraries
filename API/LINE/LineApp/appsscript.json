@@ -1,0 +1,33 @@
+{
+  "timeZone": "Asia/Tokyo",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "LineEvent",
+        "libraryId": "1dai2FSvS8o71rM7GT5UEIGH4RjJVuvFORBfUA_uTjv7HZ33s-8CSiT1T",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "LineAuth",
+        "libraryId": "17Xyi0jNw6TqgUfQBk8a4kvbkm2iVR3_IRH2eBWVSuZhVtapefinmBqj9",
+        "version": "0",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "LineRichMenu",
+        "version": "0",
+        "libraryId": "1wH6LeLLrklMDB33Wz13lk9vkHy05VJqHidHXVoxX77N4oIC9zZVox5RG",
+        "developmentMode": true
+      },
+      {
+        "userSymbol": "LineAction",
+        "version": "0",
+        "libraryId": "1wb0dem9IPFJaEj-WIi5CHlKJiu2aZgJtR16xQmcp1Jsa1FNJYcVozjo7",
+        "developmentMode": true
+      }
+    ]
+  }
+}
