@@ -9,18 +9,34 @@ Google Apps Script用のライブラリ集です。外部API連携、GAS固有�
 ### 🌐 API
 各種外部WEB APIのクライアントライブラリ群
 
-| 種別 | API | 説明 |
-|-------|-------------|------------|
-| チャットツール | **[LINE Messaging API](./API/LINE/README.md)** | LINE公式アカウント向けAPI統合ライブラリ。メッセージ配信、リッチメニュー管理、ユーザー情報取得機能を提供 |
-| チャットツール | **[Chatwork API](./API/Chatwork/README.md)** | Chatworkビジネスチャット向けAPI統合ライブラリ。メッセージ送信やWEBHOOKイベント受信を提供。 |
-| チャットツール | **[Discord API](./API/Discord/README.md)** | Discord向けBot・Webhook統合ライブラリ。メッセージ送信を提供|
-| チャットツール | **[Slack API](./API/Slack/README.md)** | Slack向けBot・アプリ統合ライブラリ。メッセージ送信、チャンネル管理、ファイル共有機能を提供 |
-| AI | **[Dify API](./API/Dify/README.md)** | DifyプラットフォームAI統合ライブラリ。ワークフロー実行、チャットボット連携、AIアプリケーション管理機能を提供 |
-| AI | **[Gemini API](./API/Gemini/README.md)** | Google Gemini AI統合ライブラリ。テキスト生成、画像解析、マルチモーダルAI処理機能を提供 |
-| AI | **[OpenAI API](./API/OpenAI/README.md)** | OpenAI GPT統合ライブラリ。テキスト生成、チャット機能、埋め込みベクトル生成機能を提供 |
-| その他 | **[Amazon SP-API](./API/Amazon/README.md)** | Amazonセラーセントラル向けAPI統合ライブラリ群。認証管理、在庫管理、注文管理、SKU管理機能を提供 |
-| その他 | **[Custom Search API](./API/CustomSearch/README.md)** | Google Custom Search API統合ライブラリ。カスタム検索エンジンによるWEB検索、画像検索機能を提供 |
-| その他 | **[PhantomJsCloud API](./API/PhantomJsCloud/README.md)** | PhantomJsCloud統合ライブラリ。ヘッドレスブラウザによるスクレイピング、PDF生成、スクリーンショット機能を提供 |
+#### 💬 チャット
+
+| API | 説明 |
+|-------------|------------|
+| **[LINE Messaging API](./API/LINE/README.md)** | LINE公式アカウント向けAPI統合ライブラリ。メッセージ配信、リッチメニュー管理、ユーザー情報取得機能を提供 |
+| **[Chatwork API](./API/Chatwork/README.md)** | Chatworkビジネスチャット向けAPI統合ライブラリ。メッセージ送信やWEBHOOKイベント受信を提供。 |
+| **[Discord API](./API/Discord/README.md)** | Discord向けBot・Webhook統合ライブラリ。メッセージ送信を提供|
+| **[Slack API](./API/Slack/README.md)** | Slack向けBot・アプリ統合ライブラリ。メッセージ送信、チャンネル管理、ファイル共有機能を提供 |
+
+---
+
+#### 🤖 AI
+
+| API | 説明 |
+|-------------|------------|
+| **[Dify API](./API/Dify/README.md)** | DifyプラットフォームAI統合ライブラリ。ワークフロー実行、チャットボット連携、AIアプリケーション管理機能を提供 |
+| **[Gemini API](./API/Gemini/README.md)** | Google Gemini AI統合ライブラリ。テキスト生成、画像解析、マルチモーダルAI処理機能を提供 |
+| **[OpenAI API](./API/OpenAI/README.md)** | OpenAI GPT統合ライブラリ。テキスト生成、チャット機能、埋め込みベクトル生成機能を提供 |
+
+---
+
+#### その他
+
+| API | 説明 |
+|-------------|------------|
+| **[Amazon SP-API](./API/Amazon/README.md)** | Amazonセラーセントラル向けAPI統合ライブラリ群。認証管理、在庫管理、注文管理、SKU管理機能を提供 |
+| **[Custom Search API](./API/CustomSearch/README.md)** | Google Custom Search API統合ライブラリ。カスタム検索エンジンによるWEB検索、画像検索機能を提供 |
+| **[PhantomJsCloud API](./API/PhantomJsCloud/README.md)** | PhantomJsCloud統合ライブラリ。ヘッドレスブラウザによるスクレイピング、PDF生成、スクリーンショット機能を提供 |
 
 ---
 
