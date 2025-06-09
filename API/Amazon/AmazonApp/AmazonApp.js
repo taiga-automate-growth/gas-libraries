@@ -29,6 +29,13 @@ class AmazonApp {
      * @private
      */
     createRequestHeaders(){
+        if(this.accessToken && this.accessToken !== ""){
+            return {
+                "x-amz-access-token": this.accessToken,
+                "x-amz-date": Utilities.formatDate(new Date(), "UTC", "yyyyMMdd'T'HHmmss'Z'"),
+                "user-agent": `${this.appName}/${this.appVersion} (Language=${this.language})`
+            };
+        }
         const url = "https://api.amazon.com/auth/o2/token";
         const payload = {
             grant_type: "refresh_token",
@@ -258,7 +265,7 @@ class AmazonApp {
                 console.log(`ページ ${pageCount + 1}: ${json.payload.Orders.length}件の注文を取得`);
             }
 
-            nextToken = json.pagination && json.pagination.NextToken ? json.pagination.NextToken : null;
+            nextToken = json.payload && json.payload.NextToken ? json.payload.NextToken : null;
             pageCount++;
 
         } while (nextToken);
@@ -722,6 +729,14 @@ class AmazonApp {
 
         const response = UrlFetchApp.fetch(url, options);
         const json = JSON.parse(response.getContentText());
+
+        if (response.getResponseCode() !== 200) {
+            console.error(`SKU詳細取得エラー (${sku}):`, json);
+            return null;
+        }
+
+        // レート制限対応: 5 requests/second を遵守するため最低210ms待機
+        this.sleep(0.21);
 
         return json;
     }
