@@ -3,7 +3,7 @@ class Config {
       // sheetIdが指定されていなければ、getActive()を使う
       this.sheetId = sheetId || SpreadsheetApp.getActive().getId();
       this.sheetName = sheetName || "設定";
-      const sheet = this.getSheet();
+      const sheet = SpreadsheetApp.openById(this.sheetId).getSheetByName(this.sheetName);
       const values = sheet.getDataRange().getValues();
       this.data = {};
       for (let i = 0; i < values.length; i++) {
@@ -15,6 +15,11 @@ class Config {
       }
     }
 
+    /**
+     * 設定値を取得する
+     * @param {string} key - 設定値のキー
+     * @returns {string} 設定値
+     */
     get(key){
       return this.data[key];
     }
