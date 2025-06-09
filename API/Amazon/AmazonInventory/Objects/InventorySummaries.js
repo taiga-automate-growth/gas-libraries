@@ -26,7 +26,7 @@ class InventorySummaries {
             nextToken: null
         };
         
-        if (json.pagination) {
+        if (json && json.pagination) {
             this.pagination.nextToken = json.pagination.nextToken || null;
         }
 
