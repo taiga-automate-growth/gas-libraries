@@ -703,4 +703,26 @@ class AmazonApp {
         console.log(`SKU取得完了: 総${allSkus.length}件, ${pageCount}ページ`);
         return allSkus;
     }
+
+    /**
+     * 特定のSKUのリスティングアイテムを取得する
+     * @param {string} sellerId - セラーID
+     * @param {string} sku - SKU
+     * @returns {Object} リスティングアイテム情報
+     */
+    getSku(sellerId, sku){
+        const headers = this.createRequestHeaders();
+        const endpoint = `/listings/2021-08-01/items/${sellerId}/${sku}?marketplaceIds=${this.marketplaceId}`;
+        const url = `${this.baseUrl}${endpoint}`;
+        const options = {
+            method: "get",
+            headers: headers,
+            muteHttpExceptions: true
+        };
+
+        const response = UrlFetchApp.fetch(url, options);
+        const json = JSON.parse(response.getContentText());
+
+        return json;
+    }
 }

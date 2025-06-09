@@ -170,3 +170,13 @@ function getSellerId(){
 function getSkuList(options){
     throw new Error("インスタンスメソッドではないため、直接呼び出し不可。AmazonAppインスタンスから呼び出してください。");
 }
+
+/**
+ * 特定のSKUのリスティングアイテムを取得する
+ * @param {string} sellerId - セラーID
+ * @param {string} sku - SKU
+ * @returns {Object} リスティングアイテム情報
+ */
+function getSku(sellerId, sku){
+    throw new Error("インスタンスメソッドではないため、直接呼び出し不可。AmazonAppインスタンスから呼び出してください。");
+}
