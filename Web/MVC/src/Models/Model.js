@@ -199,27 +199,19 @@ class Model{
   }
 
   /**
-   * 保存する
-   * @return {boolean} 保存できればtrue,それ以外はfalse
+   * DBを書き換える
+   * @param {Array<Object>} objects - パラメーターの配列
    */
-  save(){
+  static replace(objects){
     try{
       const lock = LockService.getScriptLock();
       const sucess = lock.tryLock(10000);
       if(sucess){
-        const self = this.self();
-        const db = self.db();
-        const pk = self.pk();
-        const saved = db.get().reduce((acc, row) => {
-          acc[row[pk]] = Object.values(row);
-          return acc;
-        },{});
-
-        saved[this.id] = Object.values(this);
+        const db = this.db();
         db.deleteAll();
-        db.set(Object.values(saved));
-        return true;
-    }
+        db.set(objects);
+      }
+      return true;
     }catch(e){
       console.error(e);
       return false;
@@ -227,33 +219,38 @@ class Model{
   }
 
   /**
+   * 保存する
+   * @return {boolean} 保存できればtrue,それ以外はfalse
+   */
+  save(){
+      const self = this.self();
+      const db = self.db();
+      const pk = self.pk();
+      const saved = db.get().reduce((acc, row) => {
+        acc[row[pk]] = Object.values(row);
+        return acc;
+      },{});
+
+      saved[this.id] = Object.values(this);
+      return self.replace(Object.values(saved));
+  }
+
+  /**
    * 一括保存
    * @param {Array<this>} objects - パラメーターの配列
    */
-  static saveAll(objects){
+  static save(objects){
+      const db = this.db();
+      const pk = this.pk();
+      const saved = db.get().reduce((acc, row) => {
+        acc[row[pk]] = Object.values(row);
+        return acc;
+      },{});
 
-    try {
-      const lock = LockService.getScriptLock();
-      const sucess = lock.tryLock(10000);
-      if(sucess){
-        const db = this.db();
-        const pk = this.pk();
-        const saved = db.get().reduce((acc, row) => {
-          acc[row[pk]] = Object.values(row);
-          return acc;
-        },{});
-
-        objects.forEach(object => {
-          saved[object.id] = Object.values(object);
-        });
-        db.deleteAll();
-        db.set(Object.values(saved));
-      }
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
+      objects.forEach(object => {
+        saved[object.id] = Object.values(object);
+      });
+      return this.replace(Object.values(saved));
   }
 
 
@@ -273,27 +270,30 @@ class Model{
   }
 
   delete(){
-    try{
-      const lock = LockService.getScriptLock();
-      const sucess = lock.tryLock(10000);
-      if(sucess){
-        const self = this.self();
-        const db = self.db();
-        const pk = self.pk();
-        const saved = db.get().reduce((acc, row) => {
-          acc[row[pk]] = Object.values(row);
-          return acc;
-        },{});
+      const self = this.self();
+      const db = self.db();
+      const pk = self.pk();
+      const saved = db.get().reduce((acc, row) => {
+        acc[row[pk]] = Object.values(row);
+        return acc;
+      },{});
 
-        delete saved[this.id];
-        db.deleteAll();
-        db.set(Object.values(saved));
-        return true;
-    }
-    }catch(e){
-      console.error(e);
-      return false;
-    }
+      delete saved[this.id];
+      return self.replace(Object.values(saved));
+  }
+
+  static delete(ids){
+      const db = this.db();
+      const pk = this.pk();
+      const saved = db.get().reduce((acc, row) => {
+        acc[row[pk]] = Object.values(row);
+        return acc;
+      },{});
+
+      ids.forEach(id => {
+        delete saved[id];
+      });
+      return this.replace(Object.values(saved));
   }
 
   /**
